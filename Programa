@@ -1,0 +1,421 @@
+////main
+#include <iostream>
+#include <fstream> //archivos
+#include <stdio.h> //string
+#include "Atributos/Funcion.h"
+#include "Atributos/Pelicula.h"
+
+using namespace std;
+
+int main() 
+{
+  ifstream entraFilmes, entraPersonajes;
+  int idActor;
+  string nombreActor;
+  int numPeli, anioPeli, duracionPeli, cantiActPeli, listActPeli[10];
+  string generoPeli, tituloPeli;
+  
+
+  Actor arrActor[20];
+  Pelicula arrPelicula[20];
+  Funcion arrFuncion[20];
+  
+
+  entraPersonajes.open("TEXTOS/protagonistas.txt");
+  for (int i=0; !entraPersonajes.eof(); i++)
+  {
+    entraPersonajes>>idActor;
+    getline(entraPersonajes, nombreActor);
+    arrActor[i].setId(idActor);
+    arrActor[i].setNombre(nombreActor);
+  }
+  entraPersonajes.close();
+
+  entraFilmes.open("TEXTOS/filmes.txt");
+  for (int j=0; !entraFilmes.eof(); j++)
+  {
+    entraFilmes>>numPeli>>anioPeli>>duracionPeli>>generoPeli>>cantiActPeli;
+    switch (cantiActPeli)
+    {
+      case 1: entraFilmes>>listActPeli[0]; break;
+      case 2: entraFilmes>>listActPeli[0]>>listActPeli[1]; break;
+      case 3: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]; break;
+      case 4: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]; break;
+      case 5: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]>>listActPeli[4]; break;
+      case 6: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]>>listActPeli[4]>>listActPeli[5]; break;
+      case 7: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]>>listActPeli[4]>>listActPeli[5]>>listActPeli[6]; break;
+      case 8: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]>>listActPeli[4]>>listActPeli[5]>>listActPeli[6]>>listActPeli[7]; break;
+      case 9: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]>>listActPeli[4]>>listActPeli[5]>>listActPeli[6]>>listActPeli[7]>>listActPeli[8]; break;
+      case 10: entraFilmes>>listActPeli[0]>>listActPeli[1]>>listActPeli[2]>>listActPeli[3]>>listActPeli[4]>>listActPeli[5]>>listActPeli[6]>>listActPeli[7]>>listActPeli[8]>>listActPeli[9]; break;
+      default: cout <<"ERROR"<<endl;
+    };
+    getline(entraFilmes, tituloPeli);
+    arrPelicula[j].setNumPeli(numPeli);
+    arrPelicula[j].setAnio(anioPeli);
+    arrPelicula[j].setDuracion(duracionPeli);
+    arrPelicula[j].setGenero(generoPeli);
+    arrPelicula[j].setTitulo(tituloPeli);
+    //FALTA AÑADIR LOS ACTORES PARA CADA PELICULA
+  }
+  entraFilmes.close();
+
+  cout <<arrActor[19].getId()<<endl;
+  cout <<arrPelicula[3].getTitulo();
+
+
+
+
+  return 0;
+}
+
+ ///// Actor.h
+ #include <iostream>
+#include <stdio.h>
+
+
+using namespace std;
+
+class Actor
+{
+    private:
+      int id;
+      string nombre;
+
+    public:
+        Actor();
+        Actor (int, string);
+        ~Actor();
+        void setId(int);
+        int getId();
+        void setNombre(string);
+        string getNombre();
+};
+
+Actor::Actor()
+{
+  id= 00;
+  nombre = "Default";
+}
+
+Actor::Actor (int _id, string _nombre)
+{
+  id=_id;
+  nombre=_nombre;
+}
+
+Actor::~Actor(){
+}
+
+void Actor::setId(int __id)
+{
+  id=__id;
+}
+int Actor::getId()
+{
+  return id;
+}
+
+void Actor::setNombre(string __nombre)
+{
+  nombre=__nombre;
+}
+string Actor::getNombre()
+{
+  return nombre;
+}
+
+
+/// Funcion.h
+#include <iostream>
+#include <stdio.h>
+#include "Hora.h"
+
+using namespace std;
+
+class Funcion
+{
+  private:
+      string cveFuncion;
+      int numPeli;
+      int sala;
+      Hora hora;
+
+  public:
+      Funcion();
+      Funcion(string, int, int, Hora);
+      ~Funcion();
+      void setCveFuncion(string);
+      string getCveFuncion();
+      void setNumPeli(int);
+      int getNumPeli();
+      void setSala(int);
+      int getSala();
+      void setHora(Hora);
+      Hora getHora();
+};
+
+Funcion::Funcion()
+{
+  cveFuncion="Default";
+  numPeli=00;
+  sala=00;
+  Hora a(00,00);
+  hora=a;
+}
+
+Funcion::Funcion(string _cveFuncion, int _numPeli, int _sala, Hora _hora)
+{
+  cveFuncion=_cveFuncion;
+  numPeli=_numPeli;
+  sala=_sala;
+  hora=_hora;
+}
+
+Funcion::~Funcion(){
+}
+
+void Funcion::setCveFuncion(string __cveFuncion)
+{
+  cveFuncion=__cveFuncion;
+}
+string Funcion::getCveFuncion()
+{
+  return cveFuncion;
+}
+
+void Funcion::setNumPeli(int __numPeli)
+{
+  numPeli=__numPeli;
+}
+int Funcion::getNumPeli()
+{
+  return numPeli;
+}
+
+void Funcion::setSala(int __sala)
+{
+  sala=__sala;
+}
+int Funcion::getSala()
+{
+  return sala;
+}
+
+void Funcion::setHora(Hora __hora)
+{
+  hora=__hora;
+}
+Hora Funcion::getHora()
+{
+  return hora;
+}
+
+
+////Hora.h
+#include <iostream>
+
+using namespace std;
+
+class Hora
+{
+  private:
+      int hh;
+      int mm;
+
+  public:
+      Hora();
+      Hora(int, int);
+      ~Hora();
+      void setH(int);
+      int getH();
+      void setM(int);
+      int getM();
+};
+
+
+Hora::Hora()
+{
+  hh=00;
+  mm=00;
+}
+
+Hora::Hora(int _hh, int _mm)
+{
+  hh=_hh;
+  mm=_mm;
+}
+
+Hora::~Hora(){
+}
+
+void Hora::setH(int __h)
+{
+  hh=__h;
+}
+int Hora::getH()
+{
+  return hh;
+}
+
+void Hora::setM(int __m)
+{
+  mm=__m;
+}
+int Hora::getM()
+{
+  return mm;
+}
+
+
+//// Pelicula.h
+
+#include <iostream>
+#include <stdio.h>
+#include "Actor.h"
+
+
+using namespace std;
+
+class Pelicula
+{
+  private:
+    int numPeli;
+    string titulo;
+    int anio;
+    int duracion;
+    string genero;
+    int cantActores;
+    Actor listaActores[10];
+
+  public:
+    Pelicula();
+    ~Pelicula();
+    void setNumPeli(int);
+    int getNumPeli();
+    void setTitulo(string);
+    string getTitulo();
+    void setAnio(int);
+    int getAnio();
+    void setDuracion(int);
+    int getDuracion();
+    void setGenero(string);
+    string getGenero();
+    int getCantActores();
+    bool addListaActores(Actor);
+    Actor getListaActores(int);
+};
+
+Pelicula::Pelicula()
+{
+    numPeli=00;
+    titulo="Default";
+    anio=00;
+    duracion=00;
+    genero="Default";
+    cantActores=00;
+    Actor a[10];
+    for (int i=0; i<10; i++)
+    {
+    listaActores[i]= a[i];
+    }
+}
+
+Pelicula::~Pelicula(){
+}
+
+void Pelicula::setNumPeli(int __numpeli)
+{
+  numPeli=__numpeli;
+}
+int Pelicula::getNumPeli()
+{
+  return numPeli;
+}
+
+void Pelicula::setTitulo(string __titulo)
+{
+  titulo=__titulo;
+}
+string Pelicula::getTitulo()
+{
+  return titulo;
+}
+
+void Pelicula::setAnio(int __anio)
+{
+  anio=__anio;
+}
+int Pelicula::getAnio()
+{
+  return anio;
+}
+
+void Pelicula::setDuracion(int __duracion)
+{
+  duracion=__duracion;
+}
+int Pelicula::getDuracion()
+{
+  return duracion;
+}
+
+void Pelicula::setGenero(string __genero)
+{
+  genero=__genero;
+}
+string Pelicula::getGenero()
+{
+  return genero;
+}
+
+
+int Pelicula::getCantActores()
+{
+  int asignador=-1;
+  for (int i=0; i<10; )
+    {
+      asignador= listaActores[i].getId();
+      if (asignador==0)// BUSCAR ESPACIO DISPONIBLE
+      {
+          cantActores=i;
+          return cantActores;
+      } 
+      else
+      {
+        i++;
+        asignador=-1;
+      }
+    }
+    cantActores=10;
+  return cantActores;
+}
+
+bool Pelicula::addListaActores(Actor __listaActores)
+{
+  int AcEspacio=0, comprobacionArrOriginal=0, comprobacionArrNuevo=0;
+  AcEspacio=getCantActores();
+  comprobacionArrNuevo=__listaActores.getId();
+  for (int j=0; j<10; )
+    {
+    comprobacionArrOriginal=listaActores[j].getId();
+      if (AcEspacio==10 ||comprobacionArrNuevo==comprobacionArrOriginal)
+        {
+          return false;
+        }
+      comprobacionArrOriginal=-1;
+    }
+  
+    listaActores[AcEspacio]=__listaActores;
+    return true;
+  
+}
+
+Actor Pelicula::getListaActores(int _subIndice)
+{
+  cout << "Que numero en la lista tiene el actor que quieres ver?"<<endl;
+  cin >> _subIndice;
+  return listaActores[_subIndice];
+}
+
+
+
